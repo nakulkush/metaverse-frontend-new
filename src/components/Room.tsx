@@ -268,10 +268,16 @@ function Room() {
   }, [roomID]);
 
   // ✅ Email summary API call
-  //@ts-ignore
-  const handleSendSummary = async (emails) => {
+  // Add this at the top of the component
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+  const handleSendSummary = async (emails: string[]) => {
+    console.log("📧 Attempting to send summary to:", emails);
+    console.log("📧 Room name:", roomName);
+    console.log("📧 API URL:", API_URL); // ✅ Log the URL being used
+
     try {
-      const response = await fetch("http://localhost:3000/api/send-summary", {
+      const response = await fetch(`${API_URL}/api/send-summary`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -282,18 +288,47 @@ function Room() {
         }),
       });
 
+      const data = await response.json();
+      console.log("📧 Server response:", data);
+
       if (!response.ok) {
-        throw new Error("Failed to send summary");
+        throw new Error(data.error || `Server error: ${response.status}`);
       }
 
-      const data = await response.json();
-      console.log("Summary sent:", data);
-      showNotification("Summary sent successfully!");
-    } catch (error) {
-      console.error("Error sending summary:", error);
-      showNotification("Failed to send summary", "error");
+      alert("✅ Summary sent successfully! Check your email.");
+      return data;
+    } catch (error: any) {
+      console.error("❌ Failed to send summary:", error);
+      alert(`Failed to send summary: ${error.message}`);
+      throw error;
     }
   };
+  //@ts-ignore
+  // const handleSendSummary = async (emails) => {
+  //   try {
+  //     const response = await fetch("http://localhost:3000/api/send-summary", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         roomName,
+  //         emails,
+  //       }),
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error("Failed to send summary");
+  //     }
+
+  //     const data = await response.json();
+  //     console.log("Summary sent:", data);
+  //     showNotification("Summary sent successfully!");
+  //   } catch (error) {
+  //     console.error("Error sending summary:", error);
+  //     showNotification("Failed to send summary", "error");
+  //   }
+  // };
 
   // ✅ Modified leaveRoom handler to show email modal if summary is ready
   // const handleLeaveMeeting = () => {
