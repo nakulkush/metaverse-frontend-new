@@ -20,7 +20,7 @@ const LIVEKIT_URL =
   import.meta.env.VITE_LIVEKIT_URL ||
   "wss://cooooolabio-dmw34ny9.livekit.cloud";
 
-let egressActive = false; // 🟢 prevents duplicate egress calls
+// let egressActive = false; // 🟢 prevents duplicate egress calls
 
 export const useWebRTC = ({
   roomID,

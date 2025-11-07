@@ -189,8 +189,8 @@ function Room() {
 
   const {
     name: initialName,
-    mic: initialMic,
-    cam: initialCam,
+    // mic: initialMic,
+    // cam: initialCam,
     loves: initialLoves,
   } = location.state || {};
 
