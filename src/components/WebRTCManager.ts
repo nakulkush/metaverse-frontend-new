@@ -6,7 +6,7 @@ import { debounce } from "lodash";
 
 export const socket: Socket = io(
   import.meta.env.VITE_SOCKET_URL ||
-    "gleaming-tranquility-production.up.railway.app",
+    "desirable-surprise-production.up.railway.app",
   {
     reconnectionAttempts: 10,
     reconnectionDelay: 3000,
