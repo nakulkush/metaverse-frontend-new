@@ -647,10 +647,11 @@ export const useWebRTC = ({
     socket.on("egress-status", ({ status, egressId, error }) => {
       console.log(`📡 Egress status: ${status}, ID: ${egressId}`);
       if (status === "started") {
-        egressActive = true;
+        // egressActive = true;
         localStorage.setItem("egressId", egressId);
       } else if (status === "stopped" || status === "failed") {
-        egressActive = false;
+        // egressActive = false;
+
         localStorage.removeItem("egressId");
         if (status === "failed") {
           console.error(`❌ Egress failed: ${error}`);
@@ -687,7 +688,7 @@ export const useWebRTC = ({
     room?.disconnect();
     socket.disconnect();
 
-    egressActive = false;
+    // egressActive = false;
     localStorage.removeItem("egressId");
     navigate("/");
   };
